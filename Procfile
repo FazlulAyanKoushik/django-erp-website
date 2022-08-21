@@ -1,1 +1,1 @@
-web: gunicorn erp.wsgi
+web: gunicorn erp.wsgi --log-file-
