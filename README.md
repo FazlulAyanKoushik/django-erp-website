@@ -1,4 +1,4 @@
-# ERP-dj
+# An ERP project powered by Django
 
 <h3>run this programe by "python manage.py runserver"</h3>
 <br><br>
