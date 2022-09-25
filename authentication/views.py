@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from ast import Expression
+from django.shortcuts import render, redirect
 from django.views import View
 import json
 from django.http import JsonResponse
@@ -7,8 +8,14 @@ from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage, send_mail
 from django.conf import settings
-from django.template.loader import render_to_string
 
+from django.utils.encoding import force_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
+from .utils import account_activation_token
+from django.utils.encoding import force_str as force_text
+from django.contrib import auth
 
 # Create your views here.
 def checkPasswordStrength(password):
@@ -18,6 +25,8 @@ def checkPasswordStrength(password):
     isLower_there = any(char.islower() for char in password)
     isSpecial_there = any(char in special_chars for char in password)
     
+
+    
     all_true = all([isDigit_there, isUpper_there, isLower_there, isSpecial_there])
     
     if len(password)< 6:
@@ -26,6 +35,65 @@ def checkPasswordStrength(password):
         return 'strong'
     else:
         return 'medium'
+    
+class LogoutView(View):
+    def post(self, request):
+        auth.logout(request)
+        messages.success(request, 'You have been logged out')
+        return redirect('login')
+        
+        
+
+
+class VerificationView(View):
+    def get(self, request, uidb64, token):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=id)
+            
+            if not account_activation_token.check_token(user, token):
+                print('******************1')
+                return render('login'+'?message='+'User already activated')
+            
+            if user.is_active:
+                print('******************2')
+                return redirect('login')
+            user.is_active = True
+            user.save()
+            messages.success(request,'Account successfully activated')
+            print('******************3')
+            return redirect('login')
+        
+        except Exception as e:
+            pass
+          
+        return redirect('login')
+
+class LoginView(View):
+    def get(self, request):
+        return render(request, 'authentication/login.html')
+    
+    def post(self, request):
+        username = request.POST['username']
+        password = request.POST['password']
+        
+        if username and password:
+            user = auth.authenticate(username=username, password=password)
+            
+            if user:
+                if user.is_active:
+                    auth.login(request, user)
+                    messages.success(request, 'Welcome, ' +user.username+' you are now logged in')
+                    return redirect('expenses')
+                
+                messages.error(request, 'Account is not active, Please check your email.')
+                return render(request, 'authentication/login.html')
+            
+            messages.error(request, 'Invalid credentials, Try again.')
+            return render(request, 'authentication/login.html')
+        
+        messages.error(request, 'Please fill all the fields')
+        return render(request, 'authentication/login.html')
     
 class PasswordCheckerView(View):
     def post(self, request):
@@ -95,28 +163,42 @@ class RedistrationView(View):
                 user.is_active = False
                 user.save()
                 
+                
+                # - path to view
+                # - getting domain we are on
+                # - relative url to verificaion 
+                # - encode uid
+                # - token
+                domain = get_current_site(request).domain
+                print(f'domain here : {domain}')
+                
+                print('I am in Utils : ', account_activation_token)
+                print('Token generated make token : ',account_activation_token.make_token(user))
+                
+                uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
+                link = reverse('activate', kwargs={'uidb64': uidb64, 'token': account_activation_token.make_token(user)})
+                print(f'reverse link here: {link}')
+                activate_url = 'http://'+domain+link
+
+
+                
                 email_subject = 'Activate your acctount'
-                email_body = 'Please verify your email address to activate your ERP account'
+                email_body = 'Hi '+user.username+'\nPlease verify your email address to activate your ERP account\n'+activate_url
                 sender_email = settings.EMAIL_HOST_USER
                 receiver_email = email
-                # email = EmailMessage( 
-                #     email_subject,
-                #     email_body,
-                #     sender_email,
-                #     [receiver_email],  
-                # )
-                # email.send(fail_silently=False)
-                # # email.fail_silently=False
-                # # email.send()
-                send_mail(
-                    email_subject, 
-                    email_body, 
-                    sender_email, 
-                    [receiver_email],
-                    fail_silently=False
-                    )             
                 
-                messages.success(request, "Account created successfully")
+                try:
+                    send_mail(
+                        email_subject, 
+                        email_body, 
+                        sender_email, 
+                        [receiver_email],
+                        fail_silently=False
+                    )             
+                    messages.success(request, "Account created successfully")
+                except Exception as e:
+                    return False
+                                    
                 return render(request, 'authentication/register.html')
         
         return render(request, 'authentication/register.html')
