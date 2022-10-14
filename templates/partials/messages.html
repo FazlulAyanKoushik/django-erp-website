@@ -1,8 +1,8 @@
 
 {% if messages %}
-<div class="messages">
+<div class="messages mt-2">
     {% for message in messages %}
-    <div {% if message.tags %} class="alert  alert-sm alert-{{ message.tags }}" style="text-align: center"  {% endif %} >
+    <div {% if message.tags %} class="alert  alert-sm alert-{{ message.tags }}" style="text-align: center; margin: auto; width:80%"  {% endif %} >
         {{ message }}
     </div>
     {% endfor %}

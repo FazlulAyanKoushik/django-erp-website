@@ -51,13 +51,13 @@
         placeholder="Search"
         aria-label="Search"
       />
+      <p style="color:aliceblue; margin:auto" class="px-5">{{user.username}}</p>
       <div class="navbar-nav">
         <div class="nav-item text-nowrap">
 
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <input  type="submit" value="Sign out">
-
           </form>
           
         </div>

@@ -10,7 +10,7 @@
                 <ol class="breadcrumb my-auto " style="padding-top: 5px; padding-bottom: 5px">
                     <li class="breadcrumb-item">
                         <a href="{% url 'expenses' %}">Expenses</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">My Expenses</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Expenses</li>
                     
                 </ol>
             </nav>
@@ -21,12 +21,14 @@
         </div>
     </div>
 
-    
-    {% csrf_token %}
+
+        {% include "partials/messages.html" %}
+
+
     <div class="card mt-3" style="margin:auto; width:80%">
         <div class="card-body">
-            <form action="{% url 'add-expense' %}" method="post">
-                {% include "partials/messages.html" %}
+            <form action="{% url 'edit-expense' form.id %}" method="post">
+                
                 {% csrf_token %}
                 <div class="form-group">
                     <label >Amount</label>
@@ -55,7 +57,7 @@
                     <label>Date</label>
                     <input type="date" class="form-control form-control-sm mb-2" name="date" value="{{form.date}}">
                 </div>
-                <input type="submit" value="Submit" class="btn btn-primary btn-primary-sm">
+                <input type="submit" value="Save" class="btn btn-primary btn-primary-sm">
             </form>
         </div>
     </div>   

@@ -3,22 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="1721183e-b61f-42eb-b41e-d9719892d16b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/erp/static/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/erp/static/css/bootstrap.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/expenses/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/expenses/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/expenses/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/expenses/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/expenses/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/expenses/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/expenses/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/expenses/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/expenses/add_expense.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/expenses/add_expense.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/expenses/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/expenses/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/partials/messages.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/partials/messages.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/partials/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/partials/sidebar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/preferences/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/preferences/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userpreference/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/userpreference/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userpreference/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/userpreference/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userpreference/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/userpreference/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

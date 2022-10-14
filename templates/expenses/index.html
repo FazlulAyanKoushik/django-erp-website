@@ -1,64 +1,157 @@
-{% extends "base.html" %}
-
-
-{% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <div class="container mt-4">
-    
-    <div class="row">
-        <div class="col-md-10 my-auto" style="background-color: #E8EBF0">
-            <nav aria-label="breadcrumb ">
-                <ol class="breadcrumb my-auto " style="padding-top: 5px; padding-bottom: 5px">
-                    <li class="breadcrumb-item">
-                        <a href="{% url 'expenses' %}">Expenses</a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">My Expenses</li>
-                    
-                </ol>
-            </nav>
-        </div>
-    
-        <div class="col-md-2">
-            <a href="{% url 'add-expenses' %}" class="btn btn-primary">Add Expenses</a>
-        </div>
+  <div class="row">
+    <div class="col-md-10 my-auto" style="background-color: #e8ebf0">
+      <nav aria-label="breadcrumb ">
+        <ol
+          class="breadcrumb my-auto"
+          style="padding-top: 5px; padding-bottom: 5px"
+        >
+          <li class="breadcrumb-item">
+            <a href="{% url 'expenses' %}">Expenses</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            My Expenses
+          </li>
+        </ol>
+      </nav>
     </div>
 
-    {% include 'partials/messages.html' %}
-
-    <div class="container">
-        {% if expenses.count %}
-        <table class="table table-stripped table-hover mt-5">
-            <thead>
-                <tr>
-                    {% if user_preference %}
-                        <th>Amount ({{user_preference.currency}})</th>
-                    {% else %}   
-                        <th>Amount <span class="alert" style="color:rgba(16, 27, 37, 0.404)">(Currency not found)</span></th>
-                    {% endif %}
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for expense in expenses %}
-                <tr>
-                    <td>{{expense.amount}}</td>
-                    <td>{{expense.category}}</td>
-                    <td>{{expense.description}}</td>
-                    <td>{{expense.date}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-        <p class="alert mt-5" style="text-align:center">No data available</p>
-        {% endif %}
-        
+    <div class="col-md-2">
+      <a href="{% url 'add-expense' %}" class="btn btn-primary">Add Expenses</a>
     </div>
+  </div>
+
+  {% include 'partials/messages.html' %}
+
+  <div class="container">
+
+    <div class="row mt-4">
+      <div class="col-md-8"></div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <input
+            type="text"
+            class="form-control"
+            id="searchField"
+            placeholder="Search"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="app-table">
+      {% if expenses %}
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            {% if user_preference %}
+            <th>Amount ({{user_preference.currency}})</th>
+            {% else %}
+            <th>
+              Amount
+              <span class="alert" style="color: rgba(16, 27, 37, 0.404)"
+                >(Currency not found)</span
+              >
+            </th>
+            {% endif %}
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for expense in expenses %}
+          <tr>
+            <td>{{expense.amount}}</td>
+            <td>{{expense.category}}</td>
+            <td>{{expense.description}}</td>
+            <td>{{expense.date}}</td>
+            <th class="text-center">
+              <a
+                href="{% url 'edit-expense' expense.id %}"
+                class="btn btn-sm btn-secondary"
+                >Edit</a
+              >
+              <a
+                href="{% url 'delete-expense' expense.id %}"
+                class="btn btn-sm btn-danger"
+                >Delete</a
+              >
+            </th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="no-results" style="display: none;">No results </p>
+
+    <div class="table-output">
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th>Amount ({{currency}})</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Date</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody  class="table-body">
+
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-container">
+      <!-- pagination start -->
+      <div>
+        Showing Page {{expenses.number}} of {{expenses.paginator.num_pages}}
+
+        <ul class="pagination align-right float-end mr-auto">
+          {% if expenses.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1" tabindex="-1">First</a>
+          </li>
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="/?page={{expenses.previous_page_number}}"
+              tabindex="-1"
+              >Previous</a
+            >
+          </li>
+          {% endif %} {% for page in total_page_list %}
+          <li class="page-item">
+            <a class="page-link" href="/?page={{page}}">{{page}}</a>
+          </li>
+          {% endfor %} {% if expenses.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="/?page={{expenses.next_page_number}}"
+              >Next</a
+            >
+          </li>
+          {% endif %} {% if expenses.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="/?page={{lastpage}}">Last</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+      <!-- pagination end -->
+    </div>
+    {% else %}
+    <p class="alert mt-5" style="text-align: center">
+      Sorry! No data available.
+    </p>
+    {% endif %}
+  </div>
 </div>
 
-
-
+<script src="{% static 'js/search_expenses.js' %}"></script>
 {% endblock %}
-
