@@ -34,34 +34,34 @@
       <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"
         >ERP FLAME</a
       >
-      <button
-        class="navbar-toggler position-absolute d-md-none collapsed"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#sidebarMenu"
-        aria-controls="sidebarMenu"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <input
-        class="form-control form-control-dark w-100 rounded-0 border-0"
-        type="text"
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <p style="color:aliceblue; margin:auto" class="px-5">{{user.username}}</p>
-      <div class="navbar-nav">
+
+      <ul class="navabr-nav px-3 mt-3" style="display:flex; flex-direction: row; align-items:center;">
+        <li class="navitem text-nowrap">
+          <span class="nav-link text-capitalize " style="color:rgb(150, 196, 207); margin-right:20px; font-weight:bold">
+            ({{request.user.username}})
+          </span>
+
+        </li>
+        <li class="navitem text-nowrap ">
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <input  type="submit" style="margin-right: 20px; background-color:red; border: 1px solid; border-radius: 5px;" 
+            value="Sign out" class="btn ">
+          </form>
+        </li>
+      </ul>
+
+      <!-- <p style="color:aliceblue;" class="px-5">{{request.user.username}}</p> -->
+      <!-- <div class="navbar-nav">
         <div class="nav-item text-nowrap">
 
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <input  type="submit" value="Sign out">
+            <input  type="submit" style="margin-right: 20px" value="Sign out">
           </form>
           
         </div>
-      </div>
+      </div> -->
     </header>
 
     <div class="container-fluid">

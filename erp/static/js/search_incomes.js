@@ -12,7 +12,7 @@ searchField.addEventListener('keyup', (e)=> {
     if(searchValue.trim().length>0){
         paginationContainer.style.display = "none";
         console.log('searchField', searchValue);
-        fetch("search-expenses/", {
+        fetch("search-incomes/", {
             body: JSON.stringify({ searchText: searchValue }),
             method: "POST",
         })
@@ -31,14 +31,13 @@ searchField.addEventListener('keyup', (e)=> {
                         tBody.innerHTML+= `
                             <tr>
                                 <td>${item.amount}</td>
-                                <td>${item.category}</td>
+                                <td>${item.source}</td>
                                 <td>${item.description}</td>
                                 <td>${item.date}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-secondary" href="/edit-expense/${item.id}">Edit</a>
-                                    <a class="btn btn-sm btn-danger" href="/delete-expense/${item.id}">Delete</a>
+                                    <a class="btn btn-sm btn-secondary" href="/edit-income/${item.id}">Edit</a>
+                                    <a class="btn btn-sm btn-danger" href="/delete-income/${item.id}">Delete</a>
                                 </td>
-                                
                             </tr>
                         `
                     });

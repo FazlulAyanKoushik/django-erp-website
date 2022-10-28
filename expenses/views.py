@@ -2,7 +2,6 @@ import json
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-import expenses
 from userpreference.models import UserPreference
 from .models import Expense, Category
 from django.contrib.auth.models import User
@@ -20,36 +19,40 @@ def search_expenses(request):
             amount__istartswith = search_str, user = request.user) | Expense.objects.filter(
             date__istartswith = search_str, user = request.user) | Expense.objects.filter(
             description__icontains = search_str, user = request.user) | Expense.objects.filter(
-            category__icontains = search_str, user = request.user)
-        print(f'My Search Expenses: {expenses}')
+            category__icontains = search_str, user = request.user)       
         data = expenses.values()
         return JsonResponse(list(data), safe=False)
 
             
 @login_required(login_url='/authentication/login')
 def index(request):
-    item_per_page = 4
+    item_per_page = 10
     user = User.objects.get(username=request.user)
     expense_exist = Expense.objects.filter(user=request.user).exists()
     expenses = None
     if expense_exist:
         expenses = Expense.objects.filter(user=request.user).order_by('-date')
-        print(f'My Index Expenses: {expenses}')
     user_preference_exist  = UserPreference.objects.filter(user=request.user).exists()
-    user_preference = None
+    currency = None
     if user_preference_exist:
-        user_preference = UserPreference.objects.get(user=request.user)
+        currency = UserPreference.objects.get(user=request.user).currency
         
     # pagination
     paginator = Paginator(expenses, item_per_page)
     page_number = request.GET.get('page')
-    expenses_pagination_obj = paginator.get_page(page_number)
-    total_pages = expenses_pagination_obj.paginator.num_pages
+    try:
+        expenses_pagination_obj = paginator.get_page(page_number)
+    except:
+        expenses_pagination_obj = {}
+    if expenses_pagination_obj == {}:
+        total_pages = 0
+    else:
+        total_pages = expenses_pagination_obj.paginator.num_pages
     
     context = {
         'user': user,
         'expenses': expenses_pagination_obj,
-        'user_preference': user_preference,
+        'currency': currency,
         'lastpage': total_pages,
         'total_page_list': [n+1 for n in range(total_pages)]
     }
@@ -129,7 +132,8 @@ def edit_expense(request, id):
         
         messages.success(request, 'Expense updated successfully')
         return redirect('expenses')
-    
+
+@login_required(login_url='/authentication/login')
 def delete_expense(request, id):
     expense = Expense.objects.get(pk=id)
     expense.delete()

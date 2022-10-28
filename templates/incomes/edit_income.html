@@ -9,15 +9,15 @@
             <nav aria-label="breadcrumb ">
                 <ol class="breadcrumb my-auto " style="padding-top: 5px; padding-bottom: 5px">
                     <li class="breadcrumb-item">
-                        <a href="{% url 'expenses' %}">Expenses</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit Expenses</li>
+                        <a href="{% url 'incomes' %}">Incomes</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Income</li>
                     
                 </ol>
             </nav>
         </div>
     
         <div class="col-md-2">
-            <a href="{% url 'add-expense' %}" class="btn btn-primary">Add Expense</a>
+            <a href="{% url 'add-income' %}" class="btn btn-primary">Add Income</a>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
 
     <div class="card mt-3" style="margin:auto; width:80%">
         <div class="card-body">
-            <form action="{% url 'edit-expense' form.id %}" method="post">
+            <form action="{% url 'edit-income' form.id %}" method="post">
                 
                 {% csrf_token %}
                 <div class="form-group">
@@ -39,14 +39,14 @@
                     <input type="text" class="form-control form-control-sm mb-2" name="description" value="{{form.description}}">
                 </div>
                 <div class="form-group">
-                    <label >Category</label>
-                    <select class="form-control form-control-sm" name="category">
-                        {% if categories %}
-                            {% for category in categories %}
-                                <option name="category" value="{{category.name}}" 
-                                    {% if form.category %}
-                                        {% if form.category == category.name %} selected {% endif %}
-                                    {% endif %}>{{category.name}}</option>
+                    <label >Source</label>
+                    <select class="form-control form-control-sm" name="source">
+                        {% if sources %}
+                            {% for source in sources %}
+                                <option name="source" value="{{source.name}}" 
+                                    {% if form.source %}
+                                        {% if form.source == source.name %} selected {% endif %}
+                                    {% endif %}>{{source.name}}</option>
                             {% endfor %}
                         {% else %}
                             <option selected>Choose...</option>

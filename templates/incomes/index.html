@@ -9,23 +9,23 @@
           style="padding-top: 5px; padding-bottom: 5px"
         >
           <li class="breadcrumb-item">
-            <a href="{% url 'expenses' %}">Expenses</a>
+            <a href="{% url 'incomes' %}">Incomes</a>
           </li>
           <li class="breadcrumb-item active" aria-current="page">
-            My Expenses
+            My Income
           </li>
         </ol>
       </nav>
     </div>
 
     <div class="col-md-2">
-      <a href="{% url 'add-expense' %}" class="btn btn-primary">Add Expense</a>
+      <a href="{% url 'add-income' %}" class="btn btn-primary">Add Income</a>
     </div>
   </div>
 
   {% include 'partials/messages.html' %}
 
-  <div class="container">
+<div class="container">
 
     <div class="row mt-4">
       <div class="col-md-8"></div>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="app-table">
-      {% if expenses %}
+      {% if incomes %}
       <table class="table table-striped mt-4">
         <thead>
           <tr>
@@ -56,27 +56,27 @@
               >
             </th>
             {% endif %}
-            <th>Category</th>
+            <th>Source</th>
             <th>Description</th>
             <th>Date</th>
             <th class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
-          {% for expense in expenses %}
+          {% for income in incomes %}
           <tr>
-            <td>{{expense.amount}}</td>
-            <td>{{expense.category}}</td>
-            <td>{{expense.description}}</td>
-            <td>{{expense.date}}</td>
+            <td>{{income.amount}}</td>
+            <td>{{income.source}}</td>
+            <td>{{income.description}}</td>
+            <td>{{income.date}}</td>
             <th class="text-center">
               <a
-                href="{% url 'edit-expense' expense.id %}"
+                href="{% url 'edit-income' income.id %}"
                 class="btn btn-sm btn-secondary"
                 >Edit</a
               >
               <a
-                href="{% url 'delete-expense' expense.id %}"
+                href="{% url 'delete-income' income.id %}"
                 class="btn btn-sm btn-danger"
                 >Delete</a
               >
@@ -94,10 +94,10 @@
         <thead>
           <tr>
             <th>Amount ({{currency}})</th>
-            <th>Category</th>
+            <th>Source</th>
             <th>Description</th>
             <th>Date</th>
-            <th class="text-center">Action</th>
+            <th></th>
           </tr>
         </thead>
 
@@ -111,17 +111,17 @@
     <div class="pagination-container">
       <!-- pagination start -->
       <div>
-        Showing Page {{expenses.number}} of {{expenses.paginator.num_pages}}
+        Showing Page {{incomes.number}} of {{incomes.paginator.num_pages}}
 
         <ul class="pagination align-right float-end mr-auto">
-          {% if expenses.has_previous %}
+          {% if incomes.has_previous %}
           <li class="page-item">
             <a class="page-link" href="?page=1" tabindex="-1">First</a>
           </li>
           <li class="page-item">
             <a
               class="page-link"
-              href="/?page={{expenses.previous_page_number}}"
+              href="/?page={{incomes.previous_page_number}}"
               tabindex="-1"
               >Previous</a
             >
@@ -130,19 +130,19 @@
           <li class="page-item">
             <a class="page-link" href="/?page={{page}}">{{page}}</a>
           </li>
-          {% endfor %} {% if expenses.has_next %}
+          {% endfor %} {% if incomes.has_next %}
           <li class="page-item">
-            <a class="page-link" href="/?page={{expenses.next_page_number}}"
+            <a class="page-link" href="/?page={{incomes.next_page_number}}"
               >Next</a
             >
           </li>
-          {% endif %} {% if expenses.has_next %}
+          {% endif %} {% if incomes.has_next %}
           <li class="page-item">
             <a class="page-link" href="/?page={{lastpage}}">Last</a>
           </li>
           {% endif %}
         </ul>
-      </div>
+      </div> 
       <!-- pagination end -->
     </div>
     {% else %}
@@ -150,8 +150,8 @@
       Sorry! No data available.
     </p>
     {% endif %}
-  </div>
+  </div> 
 </div>
 
-<script src="{% static 'js/search_expenses.js' %}"></script>
+<script src="{% static 'js/search_incomes.js' %}"></script>
 {% endblock %}
