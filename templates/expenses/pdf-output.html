@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Output</title>
+
+    <style>
+
+    </style>
+</head>
+<body>
+    <div style="text-align:center">
+        <img src="http://127.0.0.1:8000/static/img/logo.png" alt="" width="35" height="35">
+        <h2>ERP Flame</h2>
+    </div>
+    <div>
+        <h2>Expense List</h2>
+    </div>
+
+    <div class="app-table">
+        <table class="table">
+            <thead class="thead">
+                <tr>
+                    <th>No</th>
+                    <th>Amount</th>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr style="text-align:center">
+                  <td>{{forloop.counter}}</td>
+                  <td>{{expense.amount}}</td>
+                  <td>{{expense.category}}</td>
+                  <td>{{expense.description}}</td>
+                  <td>{{expense.date}}</td>
+                </tr>
+                {% endfor %}
+                <tr style="text-align:center">
+                    <td></td>
+                  <td>Totall : {{total.amount__sum}}</td>
+                </tr>
+              </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>

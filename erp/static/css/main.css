@@ -7,17 +7,24 @@
   user-select: none;
 }
 
-@media (min-width: 768px) {
-  .bd-placeholder-img-lg {
-    font-size: 3.5rem;
-  }
-}
-
 .showPasswordToggle {
   cursor: pointer;
   transition: all;
+  float: right !important;
 }
 
 .showPasswordToggle:hover {
   transform: scale(1.2);
 }
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+.element {
+  display: block;
+  width: 600px;
+  height: 500px;
+}
+

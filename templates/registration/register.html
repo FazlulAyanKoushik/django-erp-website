@@ -64,14 +64,24 @@
             />
             <p class="passFeedBackArea invalid-feedback" 
             style="display:none;"></p>
-            
-            <small class="float-right showPasswordToggle">SHOW</small>
+
+            <div class="container mb-2 mt-2">
+              <small class="showPasswordToggle" style="float: right !important;">SHOW</small>
+            </div>
           </div>
-
-
 
           <input type="submit" value="Register" class="btn btn-block btn-primary submit-btn"/>
         </form>
+
+        <div class="container">
+          <a  href="{% url 'login' %}" class="text-lead lead" style="font-size:medium; text-decoration:none; color:rgb(40, 40, 175)">
+            <span>Have an account </span><strong>Login</strong>
+          </a> <br>
+          <a href="{% url 'password_reset' %}" 
+            class="text-lead lead" style="font-size:medium; text-decoration:none; color:rgb(40, 40, 175)">
+            Forgot password
+          </a>
+        </div>
 
       </div>
 

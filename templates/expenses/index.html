@@ -19,7 +19,7 @@
     </div>
 
     <div class="col-md-2">
-      <a href="{% url 'add-expense' %}" class="btn btn-primary">Add Expense</a>
+      <a href="{% url 'add-expense' %}" class="btn btn-sm btn-primary">Add Expense</a>
     </div>
   </div>
 
@@ -28,8 +28,19 @@
   <div class="container">
 
     <div class="row mt-4">
-      <div class="col-md-8"></div>
+      <div class="col-md-8">
+
+        <a href="{% url 'export-pdf' %}" class="btn btn-sm btn-info">Export PDF</a>
+
+        <a href="{% url 'export-excel' %}" class="btn btn-sm btn-primary">Export Excel</a>
+
+        <a href="{% url 'export-csv' %}" class="btn btn-sm btn-secondary">Export CSV</a>
+        
+      </div>
       <div class="col-md-4">
+
+        
+
         <div class="form-group">
           <input
             type="text"

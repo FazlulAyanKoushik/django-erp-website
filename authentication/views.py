@@ -16,8 +16,19 @@ from django.urls import reverse
 from .utils import account_activation_token
 from django.utils.encoding import force_str as force_text
 from django.contrib import auth
+import threading
 
 # Create your views here.
+class EmailThread(threading.Thread):
+    
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+    
+    def run(self):
+        self.email.send(fail_silently = False)
+    
+
 def checkPasswordStrength(password):
     special_chars = list('@#$%&')
     isDigit_there = any(char.isdigit() for char in password)
@@ -35,16 +46,6 @@ def checkPasswordStrength(password):
         return 'strong'
     else:
         return 'medium'
-    
-class LogoutView(View):
-    def post(self, request):
-        auth.logout(request)
-        messages.success(request, 'You have been logged out')
-        return redirect('login')
-        
-        
-
-
 class VerificationView(View):
     def get(self, request, uidb64, token):
         try:
@@ -70,10 +71,13 @@ class VerificationView(View):
         return redirect('login')
 
 class LoginView(View):
+    print("I'm here 1")
     def get(self, request):
-        return render(request, 'authentication/login.html')
+        print("I'm here 2")
+        return render(request, 'registration/login.html')
     
     def post(self, request):
+        print("I'm here 3")
         username = request.POST['username']
         password = request.POST['password']
         
@@ -84,16 +88,17 @@ class LoginView(View):
                 if user.is_active:
                     auth.login(request, user)
                     messages.success(request, 'Welcome, ' +user.username+' you are now logged in')
+                    print("I'm here")
                     return redirect('expenses')
                 
                 messages.error(request, 'Account is not active, Please check your email.')
-                return render(request, 'authentication/login.html')
+                return render(request, 'registration/login.html')
             
             messages.error(request, 'Invalid credentials, Try again.')
-            return render(request, 'authentication/login.html')
+            return render(request, 'registration/login.html')
         
         messages.error(request, 'Please fill all the fields')
-        return render(request, 'authentication/login.html')
+        return render(request, 'registration/login.html')
     
 class PasswordCheckerView(View):
     def post(self, request):
@@ -135,7 +140,7 @@ class EmailValidationView(View):
     
 class RedistrationView(View):
     def get(self, request):
-        return render(request, 'authentication/register.html')
+        return render(request, 'registration/register.html')
     
     def post(self, request):
         # Get user data
@@ -152,7 +157,7 @@ class RedistrationView(View):
             if not User.objects.filter(email=email).exists():
                 if len(password) < 6:
                     messages.error(request,'Password too short')
-                    return render(request, 'authentication/register.html', context)
+                    return render(request, 'registration/register.html', context)
 
                 # create a user 
                 user = User.objects.create_user(
@@ -188,17 +193,40 @@ class RedistrationView(View):
                 receiver_email = email
                 
                 try:
-                    send_mail(
+                    email = send_mail(
                         email_subject, 
                         email_body, 
                         sender_email, 
                         [receiver_email],
                         fail_silently=False
-                    )             
+                    )
+                    
+                    # EmailThread used to send email faster
+                    EmailThread(email).start()             
+                    # send_mail(
+                    #     email_subject, 
+                    #     email_body, 
+                    #     sender_email, 
+                    #     [receiver_email],
+                    #     fail_silently=False
+                    # )             
                     messages.success(request, "Account created successfully")
                 except Exception as e:
                     return False
                                     
-                return render(request, 'authentication/register.html')
+                return render(request, 'registration/register.html')
         
-        return render(request, 'authentication/register.html')
+        return render(request, 'registration/register.html')
+
+class LogoutView(View):
+    def post(self, request):
+        auth.logout(request)
+        messages.success(request, 'You have been logged out')
+        return redirect('login')
+    
+# class RequestPasswordResetEmailView(View):
+#     def get(self, request):
+#         return render(request, 'registration/reset-password.html')
+    
+#     def post(self, request):
+#         return render(request, 'registration/reset-password.html')

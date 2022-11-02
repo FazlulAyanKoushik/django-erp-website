@@ -1,0 +1,71 @@
+{% extends "auth_base.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <div class="card mt-5 pb-4">
+
+
+      <div class="card-body">
+        <div class="card-title py-3">
+          <div style="text-align: center;">
+            <h1 id="head">
+                <img src="{% static 'img/logo.png' %}" alt="" width="35" height="35">
+                ERP Flame
+            </h1><br>
+            <h4 style="color:rgb(79, 42, 165)">Login to your  account</h4>
+        </div>
+        </div>
+        <form action="/authentication/login" method="post">
+          {% csrf_token %}
+
+          {% include 'partials/messages.html' %}
+          <div class="form-group mt-4">
+            <input
+              type="text"
+              name="username"
+              placeholder="username"
+              id="usernameField"
+              value="{{fieldValues.username}}"
+              class="form-control form-control-sm mb-3"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              class="form-control form-control-sm"
+              id="passwordField"
+            />
+          </div>
+          <input type="submit" value="Login" class="btn btn-block btn-primary submit-btn mt-4" />
+        </form>
+
+        <div class="container">
+          <a  href="{% url 'register' %}" class="text-lead lead" style="font-size:medium; text-decoration:none; color:rgb(40, 40, 175)">
+            <span>Don't have any account? </span><strong>Register</strong>
+          </a> <br>
+          <a href="{% url 'password_reset' %}" 
+            class="text-lead lead" style="font-size:medium; text-decoration:none; color:rgb(40, 40, 175)">
+            Forgot password
+          </a>
+        </div>
+      </div>
+      <!-- Card End -->
+
+
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+
+<script src="{% static 'js/register.js' %}"></script>
+
+{% endblock content %}
