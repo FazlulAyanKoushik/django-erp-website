@@ -13,7 +13,7 @@ admin.site.register(Expense, ExpenseAdmin)
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug',)
+    list_display = ('name',)
 
 
 admin.site.register(Category, CategoryAdmin)

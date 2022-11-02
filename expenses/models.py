@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import User
-from autoslug import AutoSlugField
 
 
 # Create your models here.
@@ -22,7 +21,6 @@ class Expense(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from='name')
 
     def __str__(self):
         return self.name

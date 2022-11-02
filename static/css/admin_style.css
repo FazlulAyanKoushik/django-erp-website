@@ -1,0 +1,58 @@
+#header {
+    background: rgb(1, 35, 51);
+    color: #fff;
+
+}
+#branding h1 {
+    padding: 0;
+    margin: 0 20px 0 0;
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: #fff;
+}
+div.breadcrumbs {
+    background: rgb(58, 80, 90);
+    padding: 10px 40px;
+    border: none;
+    color: var(--breadcrumbs-fg);
+    text-align: left;
+}
+
+.submit-row input, a.button {
+    background: rgb(1, 35, 51);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    color: var(--button-fg);
+    cursor: pointer;
+    transition: background 0.15s;
+    width: 100%;
+}
+
+.module h2,
+.module caption, 
+.inline-group h2 {
+    background: rgb(1, 35, 51);
+}
+
+#toolbar {
+    float: right;
+}
+
+.submit-row p.deletelink-box {
+    float: left;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.submit-row a.deletelink {
+    display: block;
+    background: var(--delete-button-bg);
+    border-radius: 4px;
+    padding: 10px 15px;
+    height: 15px;
+    line-height: 15px;
+    margin-bottom: 5px;
+    color: var(--button-fg);
+}

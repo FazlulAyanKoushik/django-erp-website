@@ -5,14 +5,15 @@ name = "pypi"
 
 [packages]
 django = "*"
-psycopg2 = "*"
 django-heroku = "*"
-gunicorn = "*"
 validate-email = "*"
 six = "*"
-django-autoslug = "*"
 xlwt = "*"
 xhtml2pdf = "*"
+whitenoise = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+django-autoslug = "==1.6.1"
 
 [dev-packages]
 

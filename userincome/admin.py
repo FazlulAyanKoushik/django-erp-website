@@ -10,6 +10,6 @@ class UserIncomeAdmin(admin.ModelAdmin):
 admin.site.register(UserIncome, UserIncomeAdmin)
 
 class SourceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug',)
+    list_display = ('name',)
     
 admin.site.register(Source, SourceAdmin)
