@@ -71,13 +71,10 @@ class VerificationView(View):
         return redirect('login')
 
 class LoginView(View):
-    print("I'm here 1")
     def get(self, request):
-        print("I'm here 2")
         return render(request, 'registration/login.html')
     
     def post(self, request):
-        print("I'm here 3")
         username = request.POST['username']
         password = request.POST['password']
         
@@ -88,7 +85,6 @@ class LoginView(View):
                 if user.is_active:
                     auth.login(request, user)
                     messages.success(request, 'Welcome, ' +user.username+' you are now logged in')
-                    print("I'm here")
                     return redirect('expenses')
                 
                 messages.error(request, 'Account is not active, Please check your email.')
