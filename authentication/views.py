@@ -134,7 +134,7 @@ class EmailValidationView(View):
             return JsonResponse({'email_error':'Sorry email already exists, choose another one'}, status=400)
         return JsonResponse({'email_valid':True})  
     
-class RedistrationView(View):
+class RegistrationView(View):
     def get(self, request):
         return render(request, 'registration/register.html')
     
